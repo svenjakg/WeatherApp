@@ -37,6 +37,10 @@ div.content {
   font-size: 48px;
 }
 
+.timestamp-container {
+  color: rgb(100, 100, 100);
+}
+
 /* styling of the forecast panels */
 
 .forecast {

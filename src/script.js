@@ -11,28 +11,43 @@ function capitalizeWord(word) {
 // date and time
 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-// add a '0' for minutes < 10
-function formatMinutes(minuteUnformatted) {
-    let minuteFormatted = minuteUnformatted;
+// add a '0' for minutes < 10 and hours < 10
+function formatTime(timeUnformatted) {
+    let timeFormatted = timeUnformatted;
     
-    if (minuteUnformatted < 10) {
-        minuteFormatted = `0${minuteUnformatted}`;
+    if (timeUnformatted < 10) {
+        timeFormatted = `0${timeUnformatted}`;
     }
 
-    return `${minuteFormatted}`;
+    return `${timeFormatted}`;
 }
 
 // format current date
 function getToday() {
     let now = new Date();
 
-    let minute = formatMinutes(now.getMinutes());
-    let hour = now.getHours();
+    let minute = formatTime(now.getMinutes());
+    let hour = formatTime(now.getHours());
     let day = days[now.getDay()];
 
     let text = `${day} ${hour}:${minute}`;
 
     return text;
+}
+
+// weather update timestamp
+function lastUpdated (timestamp) {
+    // convert to milliseconds
+    let milliseconds = timestamp * 1000;
+
+    let date = new Date(milliseconds);
+    let minute = formatTime(date.getMinutes());
+    let hour = formatTime(date.getHours());
+    let day = days[date.getDay()];
+
+    let output = `${day} ${hour}:${minute}`;
+
+    return output;
 }
 
 // handle submit button (location)
@@ -88,6 +103,9 @@ function injectCurrentWeather(response) {
 
     let currentWindSpeed = document.querySelector(".location-container .wind-speed");
     currentWindSpeed.innerHTML = Math.round(response.data.wind.speed);
+
+    let timestampElement = document.querySelector("#timestamp");
+    timestampElement.innerHTML = lastUpdated(response.data.dt);
 }
 
 // inject city submitted by user
