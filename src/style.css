@@ -1,8 +1,14 @@
 /* define layout of the whole page */
+div.page-wrapper {
+  margin: 50px auto;
+  max-width: 600px;
+}
+
+/* define layout of the weather app */
 div.content {
-  margin: 0 auto;
-  margin-top: 50px;
-  width: 600px;
+  border: 1px solid rgb(223, 223, 223);
+  border-radius: 5px;
+  padding: 20px;
 }
 
 .accent-color {

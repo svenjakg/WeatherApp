@@ -26,6 +26,7 @@
     ></script>
 
     <!-- import css style file -->
+    <!-- import after Bootstrap to prevent unintended overwriting -->
     <link rel="stylesheet" href="src/style.css" />
     <title>WeatherApp</title>
   </head>
@@ -33,123 +34,130 @@
     <!-- Bootstrap requirement -->
     <div class="container">
       <!-- define the whole layout of the web page -->
-      <div class="content">
-        <!-- user interaction -->
-        <div class="card">
-          <div class="card-body">
-            <form id="search-form">
-              <div class="row">
-                <div class="col-sm">
-                  <input
-                    type="search"
-                    placeholder="Enter location"
-                    autocomplete="off"
-                    autofocus="on"
-                    class="form-control"
-                    id="search-text-input"
-                  />
+      <div class="page-wrapper">
+        <!-- define the whole layout of the weather app -->
+        <div class="content">
+          <!-- user interaction -->
+          <div class="card">
+            <div class="card-body">
+              <form id="search-form">
+                <div class="row">
+                  <div class="col-sm">
+                    <input
+                      type="search"
+                      placeholder="Enter location"
+                      autocomplete="off"
+                      autofocus="on"
+                      class="form-control"
+                      id="search-text-input"
+                    />
+                  </div>
+                  <div class="col-sm">
+                    <input
+                      type="submit"
+                      class="form-control btn btn-primary"
+                      value="Search"
+                    />
+                  </div>
+                  <div class="col-sm">
+                    <button
+                      type="button"
+                      class="btn btn-success"
+                      id="current-button"
+                    >
+                      Current
+                    </button>
+                  </div>
                 </div>
-                <div class="col-sm">
-                  <input
-                    type="submit"
-                    class="form-control btn btn-primary"
-                    value="Search"
-                  />
-                </div>
-                <div class="col-sm">
-                  <button
-                    type="button"
-                    class="btn btn-success"
-                    id="current-button"
+              </form>
+            </div>
+          </div>
+
+          <!-- current/chosen location -->
+          <div class="location-container">
+            <div class="row">
+              <div class="col-6">
+                <div class="location">
+                  <span class="accent-color city" id="chosen-city"
+                    >default</span
                   >
-                    Current
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- current/chosen location -->
-        <div class="location-container">
-          <div class="row">
-            <div class="col-6">
-              <div class="location">
-                <span class="accent-color city" id="chosen-city">default</span>
-                <i class="fas fa-sun weather-icon"></i>
-                <span class="accent-color temperature" id="current-temperature"
-                  >19</span
-                >
-                <span><a href="#" id="unit-celsius">°C</a></span>
-                <span>|</span>
-                <span><a href="#" id="unit-fahrenheit">°F</a></span>
-                <br />
-                <span class="weather-description">default</span>
-              </div>
-            </div>
-            <div class="col-6">
-              <span class="accent-color" id="today">default</span>
-              <br />
-              Humidity: <span class="humidity">59</span>%
-              <br />
-              Wind: <span class="wind-speed">6</span> km/h
-            </div>
-          </div>
-        </div>
-
-        <!-- forecast for the next 5 days -->
-        <div class="row">
-          <div class="col-sm">
-            <div class="card">
-              <div class="card-body">
-                <div class="forecast">
-                  <span class="accent-color">Mon</span>
-                  <i class="fas fa-cloud weather-icon"></i>
-                  <span class="temperature">16°C</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm">
-            <div class="card">
-              <div class="card-body">
-                <div class="forecast">
-                  <span class="accent-color">Tue</span>
-                  <i class="fas fa-cloud weather-icon"></i>
-                  <span class="temperature">19°C</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm">
-            <div class="card">
-              <div class="card-body">
-                <div class="forecast">
-                  <span class="accent-color">Wed</span>
-                  <i class="fas fa-cloud-showers-heavy weather-icon"></i>
-                  <span class="temperature">15°C</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm">
-            <div class="card">
-              <div class="card-body">
-                <div class="forecast">
-                  <span class="accent-color">Thu</span>
-                  <i class="fas fa-cloud-sun-rain weather-icon"></i>
-                  <span class="temperature">16°C</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm">
-            <div class="card">
-              <div class="card-body">
-                <div class="forecast">
-                  <span class="accent-color">Fri</span>
                   <i class="fas fa-sun weather-icon"></i>
-                  <span class="temperature">18°C</span>
+                  <span
+                    class="accent-color temperature"
+                    id="current-temperature"
+                    >19</span
+                  >
+                  <span><a href="#" id="unit-celsius">°C</a></span>
+                  <span>|</span>
+                  <span><a href="#" id="unit-fahrenheit">°F</a></span>
+                  <br />
+                  <span class="weather-description">default</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <span class="accent-color" id="today">default</span>
+                <br />
+                Humidity: <span class="humidity">59</span>%
+                <br />
+                Wind: <span class="wind-speed">6</span> km/h
+              </div>
+            </div>
+          </div>
+
+          <!-- forecast for the next 5 days -->
+          <div class="row">
+            <div class="col-sm">
+              <div class="card">
+                <div class="card-body">
+                  <div class="forecast">
+                    <span class="accent-color">Mon</span>
+                    <i class="fas fa-cloud weather-icon"></i>
+                    <span class="temperature">16°C</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="card">
+                <div class="card-body">
+                  <div class="forecast">
+                    <span class="accent-color">Tue</span>
+                    <i class="fas fa-cloud weather-icon"></i>
+                    <span class="temperature">19°C</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="card">
+                <div class="card-body">
+                  <div class="forecast">
+                    <span class="accent-color">Wed</span>
+                    <i class="fas fa-cloud-showers-heavy weather-icon"></i>
+                    <span class="temperature">15°C</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="card">
+                <div class="card-body">
+                  <div class="forecast">
+                    <span class="accent-color">Thu</span>
+                    <i class="fas fa-cloud-sun-rain weather-icon"></i>
+                    <span class="temperature">16°C</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="card">
+                <div class="card-body">
+                  <div class="forecast">
+                    <span class="accent-color">Fri</span>
+                    <i class="fas fa-sun weather-icon"></i>
+                    <span class="temperature">18°C</span>
+                  </div>
                 </div>
               </div>
             </div>
