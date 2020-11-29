@@ -67,16 +67,25 @@ function handleSubmitCity(event) {
     axios.get(finalURL).then(injectCurrentWeather);
 }
 
+// temperature
+let celsiusTemperature = null;
+
 // convert temperature to Celsius
-function convertCelsius() {
+function displayCelsiusTemperature(event) {
+    event.preventDefault();
+
     let currentTemperatureCelsius = document.querySelector("#current-temperature");
-    currentTemperatureCelsius.innerHTML = 19;
+    currentTemperatureCelsius.innerHTML = Math.round(celsiusTemperature);
 }
 
 // convert temperature to Fahrenheit
-function convertFahrenheit() {
+function displayFahrenheitTemperature(event) {
+    event.preventDefault();
+
+    let FahrenheitTemp = (celsiusTemperature * 9/5) + 32;
+
     let currentTemperatureFahrenheit = document.querySelector("#current-temperature");
-    currentTemperatureFahrenheit.innerHTML = 66;
+    currentTemperatureFahrenheit.innerHTML = Math.round(FahrenheitTemp);
 }
 
 
@@ -89,6 +98,8 @@ injectToday.innerHTML = getToday();
 // inject city
 // inject default city when page is loaded
 function injectCurrentWeather(response) {
+    celsiusTemperature = response.data.main.temp;
+
     let defaultCity = document.querySelector("#chosen-city");
     defaultCity.innerHTML = response.data.name;
 
@@ -122,11 +133,11 @@ currentCity.addEventListener("click", getCurrentPosition);
 
 // inject temperatur (Celsius)
 let convertTemperatureCelsius = document.querySelector("#unit-celsius");
-convertTemperatureCelsius.addEventListener("click", convertCelsius);
+convertTemperatureCelsius.addEventListener("click", displayCelsiusTemperature);
 
 // inject temperature (Fahrenheit)
 let convertTemperatureFahrenheit = document.querySelector("#unit-fahrenheit");
-convertTemperatureFahrenheit.addEventListener("click", convertFahrenheit);
+convertTemperatureFahrenheit.addEventListener("click", displayFahrenheitTemperature);
 
 
 
