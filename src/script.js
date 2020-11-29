@@ -96,7 +96,7 @@ function injectCurrentWeather(response) {
     currentTemperatureCelsius.innerHTML = Math.round(response.data.main.temp);
 
     let currentDescription = document.querySelector(".location-container .weather-description");
-    currentDescription.innerHTML = response.data.weather[0].main;
+    currentDescription.innerHTML = capitalizeWord(response.data.weather[0].description);
 
     let currentHumidity = document.querySelector(".location-container .humidity");
     currentHumidity.innerHTML = response.data.main.humidity;
@@ -109,7 +109,7 @@ function injectCurrentWeather(response) {
 
     let currentIcon = document.querySelector("#current-weather-icon");
     currentIcon.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`)
-    currentIcon.setAttribute("alt", response.data.weather[0].main);
+    currentIcon.setAttribute("alt", response.data.weather[0].description);
 }
 
 // inject city submitted by user
