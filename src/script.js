@@ -35,37 +35,34 @@ function getToday() {
     return text;
 }
 
-// weather update timestamp
-function lastUpdated (timestamp) {
+// convert timestamp from OpenWeather API
+function convertTimestamp(timestamp) {
     // convert to milliseconds
     let milliseconds = timestamp * 1000;
 
     let date = new Date(milliseconds);
     let minute = formatTime(date.getMinutes());
     let hour = formatTime(date.getHours());
-    let day = days[date.getDay()];
 
-    let output = `${day} ${hour}:${minute}`;
+    let output = `${hour}:${minute}`;
 
     return output;
 }
 
-// handle submit button (location)
-function handleSubmitCity(event) {
-    event.preventDefault();
-    
-    // access user input
-    let userInput = document.querySelector("#search-text-input");
-    let cityNameCapitalized = capitalizeWord(userInput.value);
+// weather update timestamp
+function lastUpdated(timestamp) {
+    // convert to milliseconds
+    let milliseconds = timestamp * 1000;
 
-    // inject user input into the page
-    let injectCity = document.querySelector("#chosen-city");
-    injectCity.innerHTML = cityNameCapitalized;
+    let date = new Date(milliseconds);
+    let day = days[date.getDay()];
 
-    let finalURL = `${apiOpenWeatherEndPoint}?q=${cityNameCapitalized}&appid=${apiOpenWeatherKey}&units=metric&lang=en`;
-    
-    axios.get(finalURL).then(injectCurrentWeather);
+    let output = `${day} ${convertTimestamp(timestamp)}`;
+
+    return output;
 }
+
+
 
 // temperature
 let celsiusTemperature = null;
@@ -107,8 +104,7 @@ function displayFahrenheitTemperature(event) {
 let injectToday = document.querySelector("#today");
 injectToday.innerHTML = getToday();
 
-// inject city
-// inject default city when page is loaded
+// inject current weather information
 function injectCurrentWeather(response) {
     celsiusTemperature = response.data.main.temp;
 
@@ -135,6 +131,47 @@ function injectCurrentWeather(response) {
     currentIcon.setAttribute("alt", response.data.weather[0].description);
 }
 
+function injectForecast(response) {
+    let forecastPanel = document.querySelector("#forecast");
+    forecastPanel.innerHTML = null;
+
+    let forecastData = null;
+    let forecastTimestamp = null;
+    let iconID = null;
+    let description = null;
+    let tempMin = null;
+    let tempMax = null;
+
+    for (let index = 0; index < 6; index++) {
+        forecastData = response.data.list[index];
+
+        forecastTimestamp = convertTimestamp(forecastData.dt);
+
+        iconID = forecastData.weather[0].icon;
+        description = forecastData.weather[0].description;
+
+        tempMin = Math.round(forecastData.main.temp_min);
+        tempMax = Math.round(forecastData.main.temp_max);
+
+        forecastPanel.innerHTML += `
+                <div class="col-2">
+                <div class="card">
+                    <div class="card-body">
+                        <span>${forecastTimestamp}</span>
+                        <div>
+                            <img
+                                src="https://openweathermap.org/img/wn/${iconID}@2x.png"
+                                alt="${description}"
+                            />
+                        </div>
+                        <span><strong>${tempMax}°</strong> ${tempMin}°</span>
+                    </div>
+                </div>
+                </div>`;
+    }
+}
+
+
 // inject city submitted by user
 let submitCity = document.querySelector("#search-form");
 submitCity.addEventListener("submit", handleSubmitCity);
@@ -156,6 +193,7 @@ convertTemperatureFahrenheit.addEventListener("click", displayFahrenheitTemperat
 // interaction with OpenWeather
 let apiOpenWeatherKey = "f54fc282cb1623303f99a2e0a7aedd4e";
 let apiOpenWeatherEndPoint = "https://api.openweathermap.org/data/2.5/weather";
+let apiOpenWeatherEndPointForecast = "https://api.openweathermap.org/data/2.5/forecast";
 
 // construct the URL for the API from Open Weather
 // based on current location
@@ -163,13 +201,40 @@ function buildOpenWeatherURLCoordinates(position) {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
 
+    // current weather
     let finalURL = `${apiOpenWeatherEndPoint}?lat=${latitude}&lon=${longitude}&appid=${apiOpenWeatherKey}&units=metric&lang=en`;
-
     axios.get(finalURL).then(injectCurrentWeather);
+
+    // forecast
+    finalURL = `${apiOpenWeatherEndPointForecast}?lat=${latitude}&lon=${longitude}&appid=${apiOpenWeatherKey}&units=metric&lang=en`;
+    axios.get(finalURL).then(injectForecast);
 }
 
 function getCurrentPosition() {
     navigator.geolocation.getCurrentPosition(buildOpenWeatherURLCoordinates);
 }
 
+// get current position of the user
 navigator.geolocation.getCurrentPosition(buildOpenWeatherURLCoordinates);
+
+
+// handle submit button (location)
+function handleSubmitCity(event) {
+    event.preventDefault();
+    
+    // access user input
+    let userInput = document.querySelector("#search-text-input");
+    let cityNameCapitalized = capitalizeWord(userInput.value);
+
+    // inject user input into the page
+    let injectCity = document.querySelector("#chosen-city");
+    injectCity.innerHTML = cityNameCapitalized;
+
+    // current weather
+    let finalURL = `${apiOpenWeatherEndPoint}?q=${cityNameCapitalized}&appid=${apiOpenWeatherKey}&units=metric&lang=en`;
+    axios.get(finalURL).then(injectCurrentWeather);
+
+    // forecast
+    finalURL = `${apiOpenWeatherEndPointForecast}?q=${cityNameCapitalized}&appid=${apiOpenWeatherKey}&units=metric&lang=en`;
+    axios.get(finalURL).then(injectForecast);
+}
