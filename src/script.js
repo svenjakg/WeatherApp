@@ -74,6 +74,12 @@ let celsiusTemperature = null;
 function displayCelsiusTemperature(event) {
     event.preventDefault();
 
+    convertTemperatureCelsius.classList.remove("inactive");
+    convertTemperatureCelsius.classList.add("active");
+
+    convertTemperatureFahrenheit.classList.remove("active");
+    convertTemperatureFahrenheit.classList.add("inactive");
+
     let currentTemperatureCelsius = document.querySelector("#current-temperature");
     currentTemperatureCelsius.innerHTML = Math.round(celsiusTemperature);
 }
@@ -81,6 +87,12 @@ function displayCelsiusTemperature(event) {
 // convert temperature to Fahrenheit
 function displayFahrenheitTemperature(event) {
     event.preventDefault();
+
+    convertTemperatureCelsius.classList.remove("active");
+    convertTemperatureCelsius.classList.add("inactive");
+
+    convertTemperatureFahrenheit.classList.remove("inactive");
+    convertTemperatureFahrenheit.classList.add("active");
 
     let FahrenheitTemp = (celsiusTemperature * 9/5) + 32;
 

@@ -37,6 +37,19 @@ div.content {
   font-size: 48px;
 }
 
+.location .active {
+  color: rgb(72, 167, 242);
+  cursor: default;
+}
+
+.location .active:hover {
+  text-decoration: none;
+}
+
+.location .inactive {
+  color: black;
+}
+
 .timestamp-container {
   color: rgb(100, 100, 100);
 }
