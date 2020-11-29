@@ -106,6 +106,10 @@ function injectCurrentWeather(response) {
 
     let timestampElement = document.querySelector("#timestamp");
     timestampElement.innerHTML = lastUpdated(response.data.dt);
+
+    let currentIcon = document.querySelector("#current-weather-icon");
+    currentIcon.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`)
+    currentIcon.setAttribute("alt", response.data.weather[0].main);
 }
 
 // inject city submitted by user
