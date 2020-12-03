@@ -79,6 +79,9 @@ function displayCelsiusTemperature(event) {
 
     let currentTemperatureCelsius = document.querySelector("#current-temperature");
     currentTemperatureCelsius.innerHTML = Math.round(celsiusTemperature);
+
+    // update clock
+    injectToday.innerHTML = getToday();
 }
 
 // convert temperature to Fahrenheit
@@ -95,6 +98,9 @@ function displayFahrenheitTemperature(event) {
 
     let currentTemperatureFahrenheit = document.querySelector("#current-temperature");
     currentTemperatureFahrenheit.innerHTML = Math.round(FahrenheitTemp);
+
+    // update clock
+    injectToday.innerHTML = getToday();
 }
 
 
@@ -129,6 +135,9 @@ function injectCurrentWeather(response) {
     let currentIcon = document.querySelector("#current-weather-icon");
     currentIcon.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`)
     currentIcon.setAttribute("alt", response.data.weather[0].description);
+
+    // update clock
+    injectToday.innerHTML = getToday();
 }
 
 function injectForecast(response) {
@@ -162,6 +171,7 @@ function injectForecast(response) {
                             <img
                                 src="https://openweathermap.org/img/wn/${iconID}@2x.png"
                                 alt="${description}"
+                                class="center"
                             />
                         </div>
                         <span><strong>${tempMax}°</strong> ${tempMin}°</span>
@@ -169,6 +179,9 @@ function injectForecast(response) {
                 </div>
                 </div>`;
     }
+
+    // update clock
+    injectToday.innerHTML = getToday();
 }
 
 
@@ -208,6 +221,9 @@ function buildOpenWeatherURLCoordinates(position) {
     // forecast
     finalURL = `${apiOpenWeatherEndPointForecast}?lat=${latitude}&lon=${longitude}&appid=${apiOpenWeatherKey}&units=metric&lang=en`;
     axios.get(finalURL).then(injectForecast);
+
+    // update clock
+    injectToday.innerHTML = getToday();
 }
 
 function getCurrentPosition() {
@@ -237,4 +253,7 @@ function handleSubmitCity(event) {
     // forecast
     finalURL = `${apiOpenWeatherEndPointForecast}?q=${cityNameCapitalized}&appid=${apiOpenWeatherKey}&units=metric&lang=en`;
     axios.get(finalURL).then(injectForecast);
+
+    // update clock
+    injectToday.innerHTML = getToday();
 }

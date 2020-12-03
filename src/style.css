@@ -68,3 +68,11 @@ div.content {
 .forecast .temperature {
   color: rgb(147, 154, 168);
 }
+
+/* align */
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
