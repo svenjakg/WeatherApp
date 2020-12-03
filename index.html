@@ -85,34 +85,39 @@
                   <div>
                     <img src=".." alt="Clear" id="current-weather-icon" />
                   </div>
+
                   <span
                     class="accent-color temperature"
                     id="current-temperature"
                     >19</span
                   >
-                  <span
-                    ><a href="#" id="unit-celsius" class="active">°C</a></span
-                  >
-                  <span>|</span>
-                  <span
-                    ><a href="#" id="unit-fahrenheit" class="inactive"
-                      >°F</a
-                    ></span
-                  >
-                  <br />
-                  <span class="weather-description">default</span>
+                  <span class="temperature-unit-conversion">
+                    <span
+                      ><a href="#" id="unit-celsius" class="active">°C</a></span
+                    >
+                    <span>|</span>
+                    <span
+                      ><a href="#" id="unit-fahrenheit" class="inactive"
+                        >°F</a
+                      ></span
+                    >
+                  </span>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-6 more-information">
                 <span class="accent-color" id="today">default</span>
+                <br />
+                <br />
+                <span class="weather-description">default</span>
+                <br />
                 <br />
                 Humidity: <span class="humidity">59</span>%
                 <br />
-                Wind: <span class="wind-speed">6</span> km/h
+                Wind: <span class="wind-speed">6</span> km/h <br /><br />
+                <span class="timestamp-container"
+                  >Last updated: <span id="timestamp">#</span></span
+                >
               </div>
-            </div>
-            <div class="timestamp-container">
-              Last updated: <span id="timestamp">#</span>
             </div>
           </div>
 
