@@ -90,3 +90,13 @@ div .content {
   position: relative;
   bottom: 22px;
 }
+
+.forecast-timestamp-position {
+  position: relative;
+  left: 17px;
+}
+
+.forecast-temperature-position {
+  position: relative;
+  left: 15px;
+}

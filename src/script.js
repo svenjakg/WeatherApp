@@ -238,7 +238,7 @@ function injectForecast(response) {
                 <div class="col-2">
                 <div class="card">
                     <div class="card-body">
-                        <span>${forecastTimestamp}</span>
+                        <span class="forecast-timestamp-position">${forecastTimestamp}</span>
                         <div>
                             <img
                                 src="https://openweathermap.org/img/wn/${iconID}@2x.png"
@@ -246,7 +246,7 @@ function injectForecast(response) {
                                 class="center"
                             />
                         </div>
-                        <span class="forecast-temperatures-${index}"><strong>${tempMax}°</strong> | ${tempMin}°</span>
+                        <span class="forecast-temperatures-${index} forecast-temperature-position"><strong>${tempMax}°</strong> | ${tempMin}°</span>
                     </div>
                 </div>
                 </div>`;
