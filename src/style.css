@@ -77,6 +77,13 @@ div .content {
   color: rgb(147, 154, 168);
 }
 
+#thermometer-icon {
+  color: rgb(100, 100, 100);
+  font-size: 48px;
+  position: absolute;
+  left: 130px;
+}
+
 /* align */
 .center {
   display: block;

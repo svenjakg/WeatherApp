@@ -176,6 +176,35 @@ function displayFahrenheitTemperature(event) {
 let injectToday = document.querySelector("#today");
 injectToday.innerHTML = getToday();
 
+
+// inject thermometer icon
+function injectThermometerIcon(CelsiusTemperature) {
+    let currentThermometerIcon = document.querySelector("#thermometer-icon");
+
+    if (CelsiusTemperature < 0.) {
+        currentThermometerIcon.innerHTML = `<i class="fas fa-thermometer-empty"></i>`;
+    }
+    else {
+        if (0. <= CelsiusTemperature <= 10.) {
+            currentThermometerIcon.innerHTML = `<i class="fas fa-thermometer-quarter"></i>`;
+        }
+        else {
+            if (10. <= CelsiusTemperature <= 20.) {
+                currentThermometerIcon.innerHTML = `<i class="fas fa-thermometer-half"></i>`;
+            }
+            else {
+                if (20. <= CelsiusTemperature <= 30.) {
+                    currentThermometerIcon.innerHTML = `<i class="fas fa-thermometer-three-quarters"></i>`;
+                }
+                else {
+                    currentThermometerIcon.innerHTML = `<i class="fas fa-thermometer-full"></i>`;
+                }
+            }
+        }
+    }
+}
+
+
 // inject current weather information
 function injectCurrentWeather(response) {
     celsiusTemperature = response.data.main.temp;
@@ -202,9 +231,14 @@ function injectCurrentWeather(response) {
     currentIcon.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`)
     currentIcon.setAttribute("alt", response.data.weather[0].description);
 
+    // inject thermometer icon depending on temperature in Celsius
+    injectThermometerIcon(celsiusTemperature);
+
+    
     // update clock
     injectToday.innerHTML = getToday();
 }
+
 
 function injectForecast(response) {
     let forecastPanel = document.querySelector("#forecast");
