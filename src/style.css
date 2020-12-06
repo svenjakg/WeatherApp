@@ -1,7 +1,7 @@
 /* define layout of the whole page */
 div .page-wrapper {
   margin: 50px auto;
-  max-width: 750px;
+  max-width: 900px;
 }
 
 /* define layout of the weather app */

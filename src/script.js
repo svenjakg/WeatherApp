@@ -64,6 +64,28 @@ function lastUpdated(timestamp) {
 
 
 
+// store temperature of forecast
+let numberForecastPanels = 6;
+
+let forecastCelsius = [
+    [0., 0.],
+    [0., 0.],
+    [0., 0.],
+    [0., 0.],
+    [0., 0.],
+    [0., 0.]
+];
+
+let forecastFahrenheit = [
+    [0., 0.],
+    [0., 0.],
+    [0., 0.],
+    [0., 0.],
+    [0., 0.],
+    [0., 0.]
+];
+
+
 // temperature
 let celsiusTemperature = null;
 
@@ -80,8 +102,33 @@ function displayCelsiusTemperature(event) {
     let currentTemperatureCelsius = document.querySelector("#current-temperature");
     currentTemperatureCelsius.innerHTML = Math.round(celsiusTemperature);
 
+    // convert forecast temperatures
+    let forecastTemperaturesCelsius0 = document.querySelector(".forecast-temperatures-0");
+    forecastTemperaturesCelsius0.innerHTML = `<strong>${forecastCelsius[0][0]}°</strong> | ${forecastCelsius[0][1]}°`;
+    
+    let forecastTemperaturesCelsius1 = document.querySelector(".forecast-temperatures-1");
+    forecastTemperaturesCelsius1.innerHTML = `<strong>${forecastCelsius[1][0]}°</strong> | ${forecastCelsius[1][1]}°`;
+
+    let forecastTemperaturesCelsius2 = document.querySelector(".forecast-temperatures-2");
+    forecastTemperaturesCelsius2.innerHTML = `<strong>${forecastCelsius[2][0]}°</strong> | ${forecastCelsius[2][1]}°`;
+
+    let forecastTemperaturesCelsius3 = document.querySelector(".forecast-temperatures-3");
+    forecastTemperaturesCelsius3.innerHTML = `<strong>${forecastCelsius[3][0]}°</strong> | ${forecastCelsius[3][1]}°`;
+
+    let forecastTemperaturesCelsius4 = document.querySelector(".forecast-temperatures-4");
+    forecastTemperaturesCelsius4.innerHTML = `<strong>${forecastCelsius[4][0]}°</strong> | ${forecastCelsius[4][1]}°`;
+
+    let forecastTemperaturesCelsius5 = document.querySelector(".forecast-temperatures-5");
+    forecastTemperaturesCelsius5.innerHTML = `<strong>${forecastCelsius[5][0]}°</strong> | ${forecastCelsius[5][1]}°`;
+
+
     // update clock
     injectToday.innerHTML = getToday();
+}
+
+// Celsius to Fahrenheit conversion
+function convertCelsiusToFahrenheit(tempCelsius) {
+    return (tempCelsius * 9/5) + 32;
 }
 
 // convert temperature to Fahrenheit
@@ -94,10 +141,29 @@ function displayFahrenheitTemperature(event) {
     convertTemperatureFahrenheit.classList.remove("inactive");
     convertTemperatureFahrenheit.classList.add("active");
 
-    let FahrenheitTemp = (celsiusTemperature * 9/5) + 32;
+    let FahrenheitTemp = convertCelsiusToFahrenheit(celsiusTemperature);
 
     let currentTemperatureFahrenheit = document.querySelector("#current-temperature");
     currentTemperatureFahrenheit.innerHTML = Math.round(FahrenheitTemp);
+
+    // convert forecast temperatures
+    let forecastTemperaturesFahrenheit0 = document.querySelector(".forecast-temperatures-0");
+    forecastTemperaturesFahrenheit0.innerHTML = `<strong>${forecastFahrenheit[0][0]}°</strong> | ${forecastFahrenheit[0][1]}°`;
+
+    let forecastTemperaturesFahrenheit1 = document.querySelector(".forecast-temperatures-1");
+    forecastTemperaturesFahrenheit1.innerHTML = `<strong>${forecastFahrenheit[1][0]}°</strong> | ${forecastFahrenheit[1][1]}°`;
+
+    let forecastTemperaturesFahrenheit2 = document.querySelector(".forecast-temperatures-2");
+    forecastTemperaturesFahrenheit2.innerHTML = `<strong>${forecastFahrenheit[2][0]}°</strong> | ${forecastFahrenheit[2][1]}°`;
+
+    let forecastTemperaturesFahrenheit3 = document.querySelector(".forecast-temperatures-3");
+    forecastTemperaturesFahrenheit3.innerHTML = `<strong>${forecastFahrenheit[3][0]}°</strong> | ${forecastFahrenheit[3][1]}°`;
+
+    let forecastTemperaturesFahrenheit4 = document.querySelector(".forecast-temperatures-4");
+    forecastTemperaturesFahrenheit4.innerHTML = `<strong>${forecastFahrenheit[4][0]}°</strong> | ${forecastFahrenheit[4][1]}°`;
+
+    let forecastTemperaturesFahrenheit5 = document.querySelector(".forecast-temperatures-5");
+    forecastTemperaturesFahrenheit5.innerHTML = `<strong>${forecastFahrenheit[5][0]}°</strong> | ${forecastFahrenheit[5][1]}°`;
 
     // update clock
     injectToday.innerHTML = getToday();
@@ -151,7 +217,7 @@ function injectForecast(response) {
     let tempMin = null;
     let tempMax = null;
 
-    for (let index = 0; index < 6; index++) {
+    for (let index = 0; index < numberForecastPanels; index++) {
         forecastData = response.data.list[index];
 
         forecastTimestamp = convertTimestamp(forecastData.dt);
@@ -161,6 +227,12 @@ function injectForecast(response) {
 
         tempMin = Math.round(forecastData.main.temp_min);
         tempMax = Math.round(forecastData.main.temp_max);
+
+        forecastCelsius[index][0] = tempMax;
+        forecastCelsius[index][1] = tempMin;
+
+        forecastFahrenheit[index][0] = Math.round(convertCelsiusToFahrenheit(tempMax));
+        forecastFahrenheit[index][1] = Math.round(convertCelsiusToFahrenheit(tempMin));
 
         forecastPanel.innerHTML += `
                 <div class="col-2">
@@ -174,7 +246,7 @@ function injectForecast(response) {
                                 class="center"
                             />
                         </div>
-                        <span><strong>${tempMax}°</strong> ${tempMin}°</span>
+                        <span class="forecast-temperatures-${index}"><strong>${tempMax}°</strong> | ${tempMin}°</span>
                     </div>
                 </div>
                 </div>`;
